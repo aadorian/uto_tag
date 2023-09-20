@@ -1,0 +1,129 @@
+Ontology: <http://info.slis.indiana.edu/∼dingying/uto.owl#>
+
+Class: <http://info.slis.indiana.edu/∼dingying/uto.owl#Tag>
+  Annotations:
+    rdfs:comment "A tag is a keyword that a user adds to an object."^^xsd:string
+  EquivalentTo: 
+    skos:Concept
+
+Class: <http://info.slis.indiana.edu/∼dingying/uto.owl#Comment>
+  Annotations:
+    rdfs:comment "A comment is a linguistic statement or set of statements added to an object or tag by a tagger during an act of tagging."^^xsd:string
+
+Class: <http://info.slis.indiana.edu/∼dingying/uto.owl#Source>
+  Annotations:
+    rdfs:comment "Source is the place where the object is hosted. It can be Delicious, Flickr, YouTube, etc."^^xsd:string
+  SubClassOf: 
+    sioc:Community
+
+Class: <http://info.slis.indiana.edu/∼dingying/uto.owl#Vote>
+  Annotations:
+    rdfs:comment "Tagging can be viewed as voting. The value of vote can be represented as the number of different taggers tagging a bookmark, the number of users indicating a resource is a favorite, or the number of users viewing a video."^^xsd:string
+
+Class: <http://info.slis.indiana.edu/∼dingying/uto.owl#Date>
+  Annotations:
+    rdfs:comment "Date is the time stamp of the tagging behavior. Format is 'MmmYY'"^^xsd:string
+
+Class: <http://info.slis.indiana.edu/∼dingying/uto.owl#Tagger>
+  Annotations:
+    rdfs:comment "A tagger is a user who tags an object."^^xsd:string
+  SubClassOf:
+    foaf:Agent,
+    sioc:Usergroup
+  EquivalentTo:
+    foaf:Person,
+    sioc:User
+
+Class: <http://info.slis.indiana.edu/∼dingying/uto.owl#Tagging>
+  Annotations:
+    rdfs:comment "Tagging is the concept which is created to link other concepts. Itself does not have any real meaning."^^xsd:string
+
+Class: <http://info.slis.indiana.edu/∼dingying/uto.owl#Object>
+  Annotations:
+    rdfs:comment "Object is the thing which a tagger is tagging. It can be bookmarks, photos, videos, music, books, slides, etc."^^xsd:string
+  EquivalentTo:
+    foaf:Document or
+    foaf:Image or
+    sioc:Post
+
+ObjectProperty: <http://info.slis.indiana.edu/∼dingying/uto.owl#hasDate>
+  Annotations:
+    rdfs:label "hasDate"
+  Domain: 
+    <http://info.slis.indiana.edu/∼dingying/uto.owl#Tagging>
+  Range: 
+    <http://info.slis.indiana.edu/∼dingying/uto.owl#Date>
+  EquivalentTo:
+    dct:date
+
+ObjectProperty: <http://info.slis.indiana.edu/∼dingying/uto.owl#hasObject>
+  Annotations:
+    rdfs:label "hasObject"
+  Domain: 
+    <http://info.slis.indiana.edu/∼dingying/uto.owl#Tagging>
+  Range: 
+    <http://info.slis.indiana.edu/∼dingying/uto.owl#Object>
+
+DataProperty: <http://info.slis.indiana.edu/∼dingying/uto.owl#hasVote>
+  Annotations:
+    rdfs:label "hasVote"
+  Domain: 
+    <http://info.slis.indiana.edu/∼dingying/uto.owl#Tagging>
+  Range: 
+    xsd:string
+
+ObjectProperty: <http://info.slis.indiana.edu/∼dingying/uto.owl#hasTag>
+  Annotations:
+    rdfs:label "hasTag"
+  Domain: 
+    <http://info.slis.indiana.edu/∼dingying/uto.owl#Tagging>
+  Range: 
+    <http://info.slis.indiana.edu/∼dingying/uto.owl#Tag>
+  EquivalentTo:
+    dct:description or
+    foaf:depiction or
+    foaf:topic
+
+DataProperty: <http://info.slis.indiana.edu/∼dingying/uto.owl#hasComment>
+  Annotations:
+    rdfs:label "hasComment"
+  Domain: 
+    <http://info.slis.indiana.edu/∼dingying/uto.owl#Tagging>
+  Range: 
+    xsd:string
+
+ObjectProperty: <http://info.slis.indiana.edu/∼dingying/uto.owl#hasRelatedTag>
+  Annotations:
+    rdfs:label "hasRelatedTag"
+  Domain: 
+    <http://info.slis.indiana.edu/∼dingying/uto.owl#Tag>
+  Range: 
+    <http://info.slis.indiana.edu/∼dingying/uto.owl#Tag>
+  EquivalentTo:
+    sioc:related_to or
+    skos:broader or
+    skos:narrower or
+    skos:related
+
+ObjectProperty: <http://info.slis.indiana.edu/∼dingying/uto.owl#hasCreator>
+  Annotations:
+    rdfs:label "hasCreator"
+  Domain: 
+    <http://info.slis.indiana.edu/∼dingying/uto.owl#Tagging>
+  Range: 
+    <http://info.slis.indiana.edu/∼dingying/uto.owl#Tagger>
+  EquivalentTo:
+    dct:creator or
+    foaf:maker or
+    sioc:has_creator
+
+ObjectProperty: <http://info.slis.indiana.edu/∼dingying/uto.owl#hasSource>
+  Annotations:
+    rdfs:label "hasSource"
+  Domain: 
+    <http://info.slis.indiana.edu/∼dingying/uto.owl#Object>
+  Range: 
+    <http://info.slis.indiana.edu/∼dingying/uto.owl#Source>
+  EquivalentTo:
+    sioc:has_host or
+    dct:source
