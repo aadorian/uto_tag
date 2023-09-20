@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+<rdf:RDF
+xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+xmlns:uto="http://info.slis.indiana.edu/∼dingying/uto.owl#"
+xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+xmlns:owl="http://www.w3.org/2002/07/owl#"
+xmlns:dct="http://purl.org/dc/terms/"
+xmlns:foaf="http://xmlns.com/foaf/0.1/"
+xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+xmlns:sioc="http://rdfs.org/sioc/ns#"
+xml:base="http://info.slis.indiana.edu/∼dingying/uto.owl#">
+<owl:Ontology rdf:about=""/>
+<owl:Class rdf:about="http://info.slis.indiana.edu/∼dingying/uto.owl#Tag">
+<rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A tag is a keyword that a user adds to an object.</rdfs:comment>
+<rdfs:label>Tag</rdfs:label>
+<owl:equivalentClass rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+</owl:Class>
+<owl:Class rdf:about="http://info.slis.indiana.edu/∼dingying/uto.owl#Comment">
+<rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A comment is a linguistic statement or set of statements added to an object or tag by a tagger during an act of tagging.</rdfs:comment>
+<rdfs:label>Comment</rdfs:label>
+</owl:Class>
+<owl:Class rdf:about="http://info.slis.indiana.edu/∼dingying/uto.owl#Source">
+<rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Source is the place where the object is hosted. It can be Delicious, Flickr, YouTube, etc.</rdfs:comment>
+<rdfs:subClassOf rdf:resource="http://rdfs.org/sioc/ns#Community"/>
+<rdfs:label>Source</rdfs:label>
+</owl:Class>
+<owl:Class rdf:about="http://info.slis.indiana.edu/∼dingying/uto.owl#Vote">
+<rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tagging can be viewed as voting. The value of vote can be represented as the number of different taggers tagging a bookmark, the number of users indicating a resource is a favorite, or the number of users viewing a video.</rdfs:comment>
+<rdfs:label>Vote</rdfs:label>
+</owl:Class>
+<owl:Class rdf:about="http://info.slis.indiana.edu/∼dingying/uto.owl#Date">
+<rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Date is the time stamp of the tagging behavior. Format is “MmmYY”</rdfs:comment>
+<rdfs:label>Date</rdfs:label>
+</owl:Class>
+<owl:Class rdf:about="http://info.slis.indiana.edu/∼dingying/uto.owl#Tagger">
+<rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A tagger is a user who tags object.</rdfs:comment>
+<rdfs:label>Tagger</rdfs:label>
+<rdfs:subClassOf rdf:resource="http://xmlns.com/foaf/0.1/Agent"/>
+<rdfs:subClassOf rdf:resource="http://rdfs.org/sioc/ns#Usergroup"/>
+<owl:equivalentClass rdf:resource="http://xmlns.com/foaf/0.1/Person"/>
+<owl:equivalentClass rdf:resource="http://rdfs.org/sioc/ns#User"/>
+</owl:Class>
+<owl:Class rdf:about="http://info.slis.indiana.edu/∼dingying/uto.owl#Tagging">
+<rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tagging is the concept which is created to link other concepts. Itself does not have any real meaning</rdfs:comment>
+<rdfs:label>Tagging</rdfs:label>
+</owl:Class>
+<owl:Class rdf:about="http://info.slis.indiana.edu/∼dingying/uto.owl#Object">
+<rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Object is the thing which tagger is tagging. It can be bookmarks, photos, videos, musics, books, slides, etc.</rdfs:comment>
+<rdfs:label>Object</rdfs:label>
+<owl:unionOf rdf:parseType="Collection">
+<owl:Class rdf:about="http://xmlns.com/foaf/0.1/Document"/>
+<owl:Class rdf:about="http://xmlns.com/foaf/0.1/Image"/>
+<owl:Class rdf:about="http://rdfs.org/sioc/ns#Post"/>
+</owl:unionOf>
+</owl:Class>
+<owl:ObjectProperty rdf:about="http://info.slis.indiana.edu/∼dingying/uto.owl#hasDate">
+<rdfs:label>hasDate</rdfs:label>
+<rdfs:domain rdf:resource="#Tagging"/>
+<rdfs:range rdf:resource="#Date"/>
+<owl:equivalentProperty rdf:resource="http://purl.org/dc/elements/1.1/date"/>
+</owl:ObjectProperty>
+<owl:ObjectProperty rdf:about="http://info.slis.indiana.edu/∼dingying/uto.owl#hasObject">
+<rdfs:label>hasObject</rdfs:label>
+<rdfs:range rdf:resource="#Object"/>
+<rdfs:domain rdf:resource="#Tagging"/>
+</owl:ObjectProperty>
+<owl:DataProperty rdf:about="http://info.slis.indiana.edu/∼dingying/uto.owl#hasVote">
+<rdfs:label>hasVote</rdfs:label>
+<rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+<rdfs:domain rdf:resource="#Tagging"/>
+</owl:DataProperty>
+<owl:ObjectProperty rdf:about="http://info.slis.indiana.edu/∼dingying/uto.owl#hasTag">
+<rdfs:label>hasTag</rdfs:label>
+<rdfs:domain rdf:resource="#Tagging"/>
+<rdfs:range rdf:resource="#Tag"/>
+<owl:equivalentProperty rdf:resource="http://purl.org/dc/elements/1.1/description"/>
+<owl:equivalentProperty rdf:resource="http://xmlns.com/foaf/0.1/depiction"/>
+<owl:equivalentProperty rdf:resource="http://xmlns.com/foaf/0.1/topic"/>
+</owl:ObjectProperty>
+<owl:DataProperty rdf:about="http://info.slis.indiana.edu/∼dingying/uto.owl#hasComment">
+<rdfs:label>hasComment</rdfs:label>
+<rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+<rdfs:domain rdf:resource="#Tagging"/>
+<owl:equivalentProperty rdf:resource="http://rdfs.org/sioc/ns#note"/>
+</owl:DataProperty>
+
+<owl:ObjectProperty rdf:about="http://info.slis.indiana.edu/∼dingying/uto.owl#hasRelatedTag">
+<rdfs:label>hasRelatedTag</rdfs:label>
+<rdfs:domain rdf:resource="#Tag"/>
+<rdfs:range rdf:resource="#Tag"/>
+<owl:equivalentProperty rdf:resource="http://rdfs.org/sioc/ns#related_to"/>
+<owl:equivalentProperty rdf:resource="http://www.w3.org/2004/02/skos/core#broader"/>
+<owl:equivalentProperty rdf:resource="http://www.w3.org/2004/02/skos/core#narrower"/>
+<owl:equivalentProperty rdf:resource="http://www.w3.org/2004/02/skos/core#related"/>
+</owl:ObjectProperty>
+<owl:ObjectProperty rdf:about="http://info.slis.indiana.edu/∼dingying/uto.owl#hasCreator">
+<rdfs:label>hasCreator</rdfs:label>
+<rdfs:range rdf:resource="#Tagger"/>
+<rdfs:domain rdf:resource="#Tagging"/>
+<owl:equivalentProperty rdf:resource="http://purl.org/dc/elements/1.1/creator"/>
+<owl:equivalentProperty rdf:resource="http://xmlns.com/foaf/0.1/maker"/>
+<owl:equivalentProperty rdf:resource="http://rdfs.org/sioc/ns#has_creator"/>
+</owl:ObjectProperty>
+<owl:InverseFunctionalProperty rdf:about="http://info.slis.indiana.edu/∼dingying/uto.owl#hasSource">
+<rdfs:label>hasSource</rdfs:label>
+<rdfs:range rdf:resource="#Source"/>
+<rdfs:domain rdf:resource="#Object"/>
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+<owl:equivalentProperty rdf:resource="http://rdfs.org/sioc/ns#has_host"/>
+<owl:equivalentProperty rdf:resource="http://purl.org/dc/elements/1.1/source"/>
+</owl:InverseFunctionalProperty>
+</rdf:RDF>
