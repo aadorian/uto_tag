@@ -1,0 +1,883 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:aml="http://www.atlasti.com/hu/ns2003" elementFormDefault="qualified">
+
+<!--
+This definition does not establish a fixed standard with regard to storing and loading HUs into ATLAS.ti! 
+We take the liberty to add, remove or change elements when needed and without prior notification.
+Last edited: March 4, 2008
+-->
+
+
+	<xs:element name="coAuthors">
+		<xs:annotation>
+			<xs:documentation>List of authors permitted for this HU (if in non-public prot mode)</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="coAuthor" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+
+
+	<xs:element name="coAuthor">
+		<xs:complexType>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+
+
+	<xs:element name="dataSources">
+		<xs:annotation>
+			<xs:documentation>
+			All files, memos, database fields, locations, server data referenced by PDs as their content providers				</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="dataSource" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="size" type="xs:integer" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+
+
+	<xs:element name="dataSource">
+		<xs:complexType>
+			<xs:attribute name="id" type="xs:ID" use="required"/>
+			<xs:attribute name="loc" type="xs:string" use="required"/>
+			<xs:attribute name="mime" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+					<!--
+						<xs:enumeration value="text"/>
+						<xs:enumeration value="text/plain"/>
+						<xs:enumeration value="text/rtf"/>
+						<xs:enumeration value="text/plain/old-para"/>
+						<xs:enumeration value="text/rtf/old-para"/>
+						<xs:enumeration value="bmp"/>
+						<xs:enumeration value="audio"/>
+						<xs:enumeration value="video"/>
+						<xs:enumeration value="vid"/>
+
+					starting with ATLAS.ti version 6.0
+						<xs:enumeration value="geo/google earth"/>
+						<xs:enumeration value="text/pdf"/>
+					-->	
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
+
+
+	<xs:element name="codes">
+		<xs:annotation>
+			<xs:documentation>
+			Descriptors. Codes can refer to quotations via codings and can be linked to each other or other object types			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="code" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="size" type="xs:integer" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+
+
+	<xs:element name="code">
+		<xs:annotation>
+			<xs:documentation>the 2 aded attributes cCount (no of code neighbors) and qCount (number of quotations coded with this code) are redundant but make performant stylesheets possible.</xs:documentation>
+		</xs:annotation>
+
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="AtlasObjectType">
+					<xs:attribute name="cCount" type="xs:integer" use="required"/>
+					<xs:attribute name="qCount" type="xs:integer" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="codeFamilies">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="codeFamily" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="size" type="xs:integer" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+
+
+	<xs:element name="families">
+		<xs:annotation>
+			<xs:documentation>Homogene collections of entities (codes, memos and pds)</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="codeFamilies"/>
+				<xs:element ref="superCodeFamilies"/>
+				<xs:element ref="memoFamilies"/>
+				<xs:element ref="superMemoFamilies"/>
+				<xs:element ref="primDocFamilies"/>
+				<xs:element ref="superPrimDocFamilies"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="codeFamily" type="ConcreteFamily">
+		<xs:annotation>
+			<xs:documentation>Qualified collection of codes</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
+
+
+	<xs:element name="codeLink" type="Link"/>
+
+
+
+	<xs:element name="codeLinkProto" type="LinkProtoType"/>
+
+
+
+	<xs:element name="codeLinkProtos">
+		<xs:annotation>
+			<xs:documentation>Definition of relations used in code-code links</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="codeLinkProto" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="size" type="xs:integer" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="codeLinks">
+		<xs:annotation>
+			<xs:documentation>Qualified inks between two codes</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="codeLink" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="size" type="xs:integer" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="codeMemoLink" type="WeakLink"/>
+
+
+	<xs:element name="codeMemoLinks">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="codeMemoLink" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="size" type="xs:integer" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="codings">
+		<xs:annotation>
+			<xs:documentation>Link between code and quotation</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="iLink" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="size" type="xs:integer" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+
+
+
+	<xs:element name="item">
+		<xs:complexType>
+			<xs:attribute name="id" type="xs:IDREF"/>
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="hermUnit">
+		<xs:annotation>
+			<xs:documentation>The Hermeneutic Unit is the main object. Holder of all work done on primary documents, codes, memos, etc</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="comment" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+			<xs:attribute name="au" type="xs:string" use="required"/>
+			<xs:attribute name="cDate" type="xs:dateTime" use="required"/>
+			<xs:attribute name="mDate" type="xs:dateTime" use="required"/>
+			<xs:attribute name="lastPD" type="xs:nonNegativeInteger" use="required"/>
+			<xs:attribute name="prot" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="passWord"/>
+						<xs:enumeration value="private"/>
+						<xs:enumeration value="publicReadWrite"/>
+						<xs:enumeration value="publicReadOnly"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="hyperLink" type="Link"/>
+
+	<xs:element name="hyperLinkProto" type="LinkProtoType"/>
+
+
+	<xs:element name="hyperLinkProtos">
+		<xs:annotation>
+			<xs:documentation>Definition of relations used in hyperlinks</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="hyperLinkProto" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="size" type="xs:integer" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="hyperLinks">
+		<xs:annotation>
+			<xs:documentation>Links between data segments (quotations)</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="hyperLink" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="size" type="xs:integer" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="iLink">
+		<xs:annotation>
+			<xs:documentation>Used for codings and memoings. Currently a little underspecified
+obj: a code or memo
+qRef: a quotation</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+<!--
+			<xs:attribute name="obj" type="xs:IDREF" use="required"/>
+			<xs:attribute name="qRef" type="xs:IDREF" use="required"/>
+-->
+			<xs:attribute name="obj" type="xs:string" use="required"/>
+			<xs:attribute name="qRef" type="xs:string" use="required"/>
+
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="links">
+		<xs:annotation>
+			<xs:documentation>Grouping all linkage related elements.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="objectSegmentLinks" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="codeLinkProtos" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="codeLinks" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="hyperLinkProtos"  minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="hyperLinks" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="memoMemoLinks" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="memoCodeLinks" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="codeMemoLinks" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="memo">
+		<xs:annotation>
+			<xs:documentation>
+type: a user defined descriptor (e.g. theoretical).
+mime: the content type of a memo - currently text/plain and text/rtf
+fn: a link to an external content container (currently identical to the id)</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="AtlasObjectType">
+					<xs:attribute name="type" type="xs:string" use="required"/>
+					<xs:attribute name="mime" use="required">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="text"/>
+								<xs:enumeration value="text/plain"/>
+								<xs:enumeration value="text/rtf"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="fn" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="memoCodeLink" type="WeakLink"/>
+
+
+	<xs:element name="memoCodeLinks">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="memoCodeLink" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="size" type="xs:integer" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="memoFamilies">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="memoFamily" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="size" type="xs:integer" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="memoFamily" type="ConcreteFamily">
+		<xs:annotation>
+			<xs:documentation>Qualified collection of memos</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
+
+	<xs:element name="memoMemoLink" type="WeakLink"/>
+
+
+	<xs:element name="memoMemoLinks">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="memoMemoLink" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="size" type="xs:integer" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="memoings">
+		<xs:annotation>
+			<xs:documentation>Link between memo and quotation</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="iLink" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="size" type="xs:integer" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="memos">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="memo" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="size" type="xs:integer" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="netView">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="comment" minOccurs="0"/>
+				<xs:element ref="node" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+			<xs:attribute name="id" type="xs:ID" use="required"/>
+			<xs:attribute name="au" type="xs:string" use="required"/>
+			<xs:attribute name="size" type="xs:integer" use="required"/>
+			<xs:attribute name="cDate" type="xs:dateTime" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="netViews">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="netView" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="size" type="xs:integer" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="node">
+		<xs:complexType>
+<!--
+			<xs:attribute name="obj" type="xs:IDREF" use="required"/>
+-->
+			<xs:attribute name="obj" type="xs:string" use="required"/>
+			<xs:attribute name="x" type="xs:positiveInteger" use="required"/>
+			<xs:attribute name="y" type="xs:positiveInteger" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+
+
+	<xs:element name="objectSegmentLinks">
+		<xs:annotation>
+			<xs:documentation>Links beteween quotations and codes (codings) and memos (memoings)</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="codings"/>
+				<xs:element ref="memoings"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+
+
+	<xs:element name="primDocFamilies">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="primDocFamily" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="size" type="xs:integer" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="primDocFamily" type="ConcreteFamily">
+		<xs:annotation>
+			<xs:documentation>Qualified collection of primary documents</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
+
+
+	<xs:element name="primDocs">
+		<xs:annotation>
+			<xs:documentation>A PD represents and external (file) or internal (pdmemo) data source. Manages all segmentations (quotations) </xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="primDoc" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="size" type="xs:nonNegativeInteger" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="primDoc">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="comment" minOccurs="0"/>
+				<xs:element ref="quotations"/>
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+			<xs:attribute name="id" type="xs:ID" use="required"/>
+			<xs:attribute name="loc" type="xs:IDREF" use="required"/>
+			<xs:attribute name="au" type="xs:string" use="required"/>
+			<xs:attribute name="cDate" type="xs:dateTime" use="required"/>
+			<xs:attribute name="mDate" type="xs:dateTime" use="required"/>
+			<xs:attribute name="qIndex" type="xs:nonNegativeInteger" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+
+
+<!-- ////////////////////////////////////////// -->
+
+
+	<xs:element name="quotations">
+		<xs:annotation>
+			<xs:documentation>
+			A quotation represents a section of data. It is a locator (moniker) into a primary documents data source				</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="q" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="size" type="xs:integer" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+
+
+
+
+	<xs:element name="q">
+
+		<xs:annotation>
+			<xs:documentation>	[add comment]</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="content" minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="comment" minOccurs="0" maxOccurs="1"/>
+			</xs:sequence>
+
+			<xs:attribute name="name" type="xs:string" use="required"/>
+			<xs:attribute name="id" type="xs:string" use="required"/>
+			<xs:attribute name="au" type="xs:string" use="required"/>
+			<xs:attribute name="cDate" type="xs:dateTime" use="required"/>
+			<xs:attribute name="mDate" type="xs:dateTime" use="required"/>
+			<xs:attribute name="loc" type="xs:string" use="required"/>
+
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="comment">
+		<xs:annotation>
+			<xs:documentation>	[add comment]</xs:documentation>
+		</xs:annotation>
+
+	<!-- expand to also accommodate plain string content, hrefs/links to external containers, cdata/binary data  -->
+		<xs:complexType>
+				<xs:sequence>
+					<xs:element ref="p" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+		<xs:attribute name="type" type="xs:string" use="required" />
+		</xs:complexType>
+
+	</xs:element>
+
+
+
+	<xs:element name="content">
+		<xs:annotation>
+			<xs:documentation>	[add comment]</xs:documentation>
+		</xs:annotation>
+
+	<!-- expand to also accommodate plain string content, hrefs/links to external containers, cdata/binary data  -->
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="p" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="size" type="xs:short" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+
+
+	<xs:element name="p">
+		<xs:annotation>
+			<xs:documentation>	[add comment]</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="a"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="a">
+		<xs:annotation>
+			<xs:documentation>	[add comment]</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute name="href" type="xs:anyURI" use="required"/>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+
+
+
+<!-- ////////////////////////////////////////// -->
+
+
+	<xs:element name="settings">
+		<xs:complexType>
+			<xs:attribute name="bookMark" type="xs:string"/>
+			<xs:attribute name="pd" type="xs:string"/>
+			<xs:attribute name="q" type="xs:string"/>
+			<xs:attribute name="code" type="xs:string"/>
+			<xs:attribute name="memo" type="xs:string"/>
+			<xs:attribute name="qFilter" type="xs:string"/>
+			<xs:attribute name="qSort" type="xs:string"/>
+			<xs:attribute name="cFilter" type="xs:string"/>
+			<xs:attribute name="cFam" type="xs:string"/>
+			<xs:attribute name="cSort" type="xs:string"/>
+			<xs:attribute name="mFilter" type="xs:string"/>
+			<xs:attribute name="mFam" type="xs:string"/>
+			<xs:attribute name="mSort" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+
+
+
+	<xs:element name="storedHU">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="hermUnit"/>
+				<xs:element ref="coAuthors" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="dataSources" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="primDocs" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="codes"  minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="superCodes" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="memos"  minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="families" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="netViews" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="links" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="settings"/>
+			</xs:sequence>
+			<xs:attribute name="lastSaved" type="xs:dateTime" use="required"/>
+			<xs:attribute name="creator" type="xs:string" use="required" fixed="ATLAS.ti"/>
+			<xs:attribute name="method" type="xs:string" use="required" fixed="AML (ATLAS Markup Language)"/>
+			<xs:attribute name="version" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+
+
+	<xs:element name="superCode">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="AtlasObjectType">
+					<xs:attribute name="query" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+
+
+	<xs:element name="superCodeFamilies">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="superCodeFamily" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="size" type="xs:integer" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+
+
+	<xs:element name="superCodeFamily" type="SuperFamily"/>
+
+
+
+	<xs:element name="superCodes">
+		<xs:annotation>
+			<xs:documentation>Supercodes refer to their quotations via a query which is processed jut in time as opposed to hard wired normal codes</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="superCode" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="size" type="xs:integer" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+
+
+
+	<xs:element name="superMemoFamilies">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="superMemoFamily" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="size" type="xs:integer" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="superMemoFamily" type="SuperFamily"/>
+
+
+
+	<xs:element name="superPrimDocFamilies">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="superPrimDocFamily" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="size" type="xs:integer" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="superPrimDocFamily" type="SuperFamily"/>
+
+
+	<xs:element name="text" type="xs:string"/>
+
+
+
+
+<!-- ///////////////////////////////////////////////////////////////////////////////// -->
+
+
+
+	<xs:complexType name="AtlasObjectType">
+		<xs:annotation>
+			<xs:documentation>Describes common properties of ATLAS.ti entities
+name: the human readable name displayed in the user interface and in reports
+id: a unique id representing this object in the namespace of the HU. Only through this id are objects referenced in other contexts (links, families, network views)
+au: the author of this object
+cDate: creation date
+mDate: date of last modification</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="comment" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required"/>
+		<xs:attribute name="id" type="xs:ID" use="required"/>
+		<xs:attribute name="au" type="xs:string" use="required"/>
+		<xs:attributeGroup ref="cmDate"/>
+	</xs:complexType>
+
+
+	<xs:complexType name="Family">
+		<xs:annotation>
+			<xs:documentation>A homogeneous collection of objects</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="AtlasObjectType"/>
+		</xs:complexContent>
+	</xs:complexType>
+
+
+
+	<xs:complexType name="ConcreteFamily">
+		<xs:annotation>
+			<xs:documentation>Contained elements are directly assigned</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="Family">
+				<xs:sequence>
+					<xs:element ref="item" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+
+
+	<xs:complexType name="SuperFamily">
+		<xs:annotation>
+			<xs:documentation>Conatined elements are idirectly assigned via a query</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="Family">
+				<xs:attribute name="query" type="xs:string" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+
+
+	<xs:complexType name="Link">
+		<xs:annotation>
+			<xs:documentation>
+rel: id of the relation prototype used to link the 
+source and the target object
+source: references a linkable object 
+target: ditto
+Note that the type of objects are restricted by the type of link 
+au: author
+cDate: creation date
+mDate: modification date (not yet)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="comment" minOccurs="0"/>
+		</xs:sequence>
+<!--
+		<xs:attribute name="rel" type="xs:IDREF" use="required"/>
+		<xs:attribute name="source" type="xs:IDREF" use="required"/>
+		<xs:attribute name="target" type="xs:IDREF" use="required"/>
+-->
+		<xs:attribute name="rel" type="xs:string" use="required"/>
+		<xs:attribute name="source" type="xs:string" use="required"/>
+		<xs:attribute name="target" type="xs:string" use="required"/>
+
+		<xs:attribute name="au" type="xs:string" use="required"/>
+		<xs:attribute name="cDate" type="xs:dateTime" use="required"/>
+		<xs:attribute name="mDate" type="xs:dateTime" use="optional"/>
+	</xs:complexType>
+
+
+
+	<xs:complexType name="LinkProtoType">
+		<xs:annotation>
+			<xs:documentation>
+Defines user definable relations used in first class links (code-code and hyperlinks)
+id: unique relation name should be unique even across hu boundaries
+label1: a (short) symbolic string displayed in network editors
+label2: ditto
+formalProp: mathematical property used in semantic queries and semantic layout
+layout: specifies the preferred direction to layout links in network editors
+descr: describes the relation
+au: its author
+</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="comment" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:string" use="required"/>
+		<xs:attribute name="label1" type="xs:string" use="required"/>
+		<xs:attribute name="label2" type="xs:string" use="required"/>
+		<xs:attribute name="formalProp" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="transitive"/>
+					<xs:enumeration value="symmetric"/>
+					<xs:enumeration value="asymmetric"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="layout" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="R"/>
+					<xs:enumeration value="L"/>
+					<xs:enumeration value="U"/>
+					<xs:enumeration value="D"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="descr" type="xs:string" use="required"/>
+		<xs:attribute name="au" type="xs:string" use="required"/>
+	</xs:complexType>
+
+
+
+	<xs:complexType name="WeakLink">
+		<xs:sequence>
+			<xs:element ref="comment" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="source" type="xs:IDREF" use="required"/>
+		<xs:attribute name="target" type="xs:IDREF" use="required"/>
+	</xs:complexType>
+	<xs:attributeGroup name="cmDate">
+		<xs:attribute name="cDate" type="xs:dateTime" use="required"/>
+		<xs:attribute name="mDate" type="xs:dateTime" use="required"/>
+	</xs:attributeGroup>
+
+
+
+
+
+</xs:schema>
